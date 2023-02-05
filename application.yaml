@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pgsql
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: mediawiki
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: app-manifest
+    repoURL: 'https://github.com/kishorpc/mediawiki-gitops.git'
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+	syncOptions:
+    - CreateNamespace=true  
+	  

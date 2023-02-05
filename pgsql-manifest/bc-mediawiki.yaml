@@ -1,0 +1,42 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: mediawiki
+    app.kubernetes.io/component: mediawiki
+    app.kubernetes.io/instance: mediawiki
+    app.kubernetes.io/name: php
+  name: mediawiki
+  namespace: mediawiki
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: mediawiki:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      uri: https://github.com/kishorpc/mediawiki.git
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: php:7.4-ubi8
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - github:
+      secret: JualyDcH5gKeDsW7QbwA
+    type: GitHub
+  - generic:
+      secret: _mjZ35gVuCsM4OsyTIls
+    type: Generic
+  - type: ConfigChange
+  - imageChange: {}
+    type: ImageChange
